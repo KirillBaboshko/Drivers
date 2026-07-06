@@ -21,7 +21,7 @@ export class ProductsProvider {
 	}
 
 	public static async getProductsPage(page: number, count: number): Promise<Page<Product>> {
-		const response = await fetch(`/products/get_page?page=${page}&count=${count}`, {
+		const response = await fetch(`/products/get-page?page=${page}&count=${count}`, {
 			method: 'GET',
 			headers: this.headers
 		});
@@ -31,7 +31,7 @@ export class ProductsProvider {
 	}
 
 	public static async getProductById(id: string): Promise<Product | null> {
-		const response = await fetch(`/products/get_by_id?productId=${id}`, {
+		const response = await fetch(`/products/get-by-id?productId=${id}`, {
 			method: 'GET',
 			headers: this.headers
 		});
@@ -41,7 +41,7 @@ export class ProductsProvider {
 	}
 
 	public static async removeProduct(id: string): Promise<Result> {
-		const response = await fetch(`/products/mark_product_as_removed?productId=${id}`, {
+		const response = await fetch(`/products/remove?productId=${id}`, {
 			method: 'GET',
 			headers: this.headers
 		});
