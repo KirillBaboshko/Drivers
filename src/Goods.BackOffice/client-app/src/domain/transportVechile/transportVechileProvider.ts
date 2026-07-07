@@ -29,6 +29,11 @@ export class TransportVechilesProvider {
 
         return mapToTransportVechilesPage(json);
     }
+    public static async getAllTransportVehicles(): Promise<TransportVechile[]> {
+		const page = await this.getTransportVechilesPage(1, 1000);
+
+		return page.values;
+	}
 
     public static async getTransportVechileById(id: string): Promise<TransportVechile | null> {
         const response = await fetch(`/transports/get-by-id?transportId=${id}`, {
@@ -42,7 +47,7 @@ export class TransportVechilesProvider {
 
     public static async removeTransportVechile(id: string): Promise<Result> {
         const response = await fetch(`/transports/remove?transportId=${id}`, {
-            method: 'GET',
+            method: 'POST',
             headers: this.headers
         });
         const json = await response.json();

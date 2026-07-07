@@ -1,4 +1,5 @@
 import React from 'react';
+import { MultiSelect, Props as MultiSelectProps } from './variants/multiSelect';
 import { NumberInput, Props as NumberInputProps } from './variants/numberInput';
 import { Select, Props as SelectProps } from './variants/select';
 import { TextAreaInput, Props as TextAreaInputProps } from './variants/textAreaInput';
@@ -6,6 +7,7 @@ import { TextInput, Props as TextInputProps } from './variants/textInput';
 
 type NumberInputVariant = { variant: 'number' } & NumberInputProps;
 type SelectVariant<T> = { variant: 'select' } & SelectProps<T>;
+type MultiSelectVariant<T> = { variant: 'multi-select' } & MultiSelectProps<T>;
 type TextAreaInputVariant = { variant: 'text-area' } & TextAreaInputProps;
 type TextInputVariant = { variant: 'text' } & TextInputProps;
 type PasswordInputVariant = { variant: 'password' } & TextInputProps;
@@ -15,7 +17,8 @@ export type Props<T> =
 	| TextAreaInputVariant
 	| PasswordInputVariant
 	| NumberInputVariant
-	| SelectVariant<T>;
+	| SelectVariant<T>
+	| MultiSelectVariant<T>;
 
 export function InputVariants<T>(props: Props<T>) {
 	switch (props.variant) {
@@ -29,5 +32,7 @@ export function InputVariants<T>(props: Props<T>) {
 			return <NumberInput {...props} />;
 		case 'select':
 			return <Select {...props} />;
+		case 'multi-select':
+			return <MultiSelect {...props} />;
 	}
 }

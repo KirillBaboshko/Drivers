@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Driver } from '../../../domain/drivers/driver';
+import {TransportVechile} from '../../../domain/transportVechile/transportVechile';
+import {TransportVechilesProvider} from '../../../domain/transportVechile/transportVechileProvider';
 import { DriverBlank } from '../../../domain/drivers/driverBlank';
 import { Gender} from '../../../domain/drivers/driverGender';
 import { DriversProvider } from '../../../domain/drivers/driversProvider';
@@ -9,6 +11,7 @@ import { Input } from '../../../shared/components/inputs/input';
 import { Modal } from '../../../shared/components/modals/modal';
 import { Notification } from '../../../shared/components/notification';
 import { Enum } from '../../../tools/types/enum';
+import { TransportType } from '../../../domain/transportVechile/transportVechileType';
 
 interface Props {
     driverId: string | null;
@@ -18,6 +21,7 @@ interface Props {
 
 export const DriverEditorModal=(props: Props)=> {
     const [driverBlank, setDriverBlank] = useState<DriverBlank>(DriverBlank.getEmpty());
+    const [transportVehicles, setTransportVehicles] = useState<TransportVechile[]>([]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     useEffect(() => {
@@ -25,6 +29,8 @@ export const DriverEditorModal=(props: Props)=> {
 
         async function loadDriverBlank() {
             let driverBlank: DriverBlank | null = null;
+            const transportVehicles = await TransportVechilesProvider.getAllTransportVehicles();
+			setTransportVehicles(transportVehicles);
 
             if (props.driverId != null) {
                 const driver: Driver | null = await DriversProvider.getDriverById(props.driverId);
@@ -40,6 +46,7 @@ export const DriverEditorModal=(props: Props)=> {
 
         return () => {
             setDriverBlank(DriverBlank.getEmpty());
+            setTransportVehicles([]);
             setErrorMessage(null);
         };
     }, [props.isOpen, props.driverId]);
@@ -53,6 +60,8 @@ export const DriverEditorModal=(props: Props)=> {
 
         props.onClose(true);
     }
+    const selectedTransportVehicle =
+		transportVehicles.find((transportVehicle) => transportVehicle.id === driverBlank.transportVechileId) ?? null;
 
     return (
         <>
@@ -97,28 +106,48 @@ export const DriverEditorModal=(props: Props)=> {
                         onChange={(gender) => setDriverBlank((driverBlank) => ({ ...driverBlank, gender }))}
                         required
                     />
-                    
-                    <Input
-                        variant='text'
-                        title='Введите номер ТС'
-                        value={driverBlank.stateNumber}
-                        onChange={(stateNumber) =>
-                            setDriverBlank((driverBlank) => ({ ...driverBlank, stateNumber }))
-                        }
-                    />
+                   <Input
+						variant='multi-select'
+						title='Выберите категории прав'
+						options={Enum.getNumberValues<RightsCategory>(RightsCategory)}
+						getOptionLabel={(option) => RightsCategory.getDisplayName(option)}
+						isOptionEqualToValue={(a, b) => a === b}
+						value={driverBlank.rightsCategories}
+						onChange={(rightsCategories) =>
+							setDriverBlank((driverBlank) => ({ ...driverBlank, rightsCategories }))
+						}
+						required
+					/>
                     <Input
                         variant='number'
-                        title='Введите среднюю скорость ТС'
-                        value={driverBlank.averageSpeed}
-                        onChange={(averageSpeed) => setDriverBlank((driverBlank) => ({ ...driverBlank, averageSpeed }))}
+                        title='Введите возраст водителя'
+                        value={driverBlank.age}
+                        onChange={(age) => setDriverBlank((driverBlank) => ({ ...driverBlank, age }))}
                         isAvailableFractionValue
                         required
                     />
                     <Input
+						variant='select'
+						title='Выберите транспортное средство'
+						options={transportVehicles}
+						getOptionLabel={(option) =>
+							`${TransportType.getDisplayName(option.type)} — ${option.name} (${option.stateNumber})`
+						}
+						isOptionEqualToValue={(a, b) => a.id === b.id}
+						value={selectedTransportVehicle}
+						onChange={(transportVehicle) =>
+							setDriverBlank((driverBlank) => ({
+								...driverBlank,
+								transportVechileId: transportVehicle?.id ?? null
+							}))
+						}
+						required
+					/>
+                    <Input
                         variant='number'
-                        title='Введите средний расход топлива ТС'
-                        value={driverBlank.fuelConsumption}
-                        onChange={(fuelConsumption) => setDriverBlank((driverBlank) => ({ ...driverBlank, fuelConsumption }))}
+                        title='Введите оплату водителя'
+                        value={driverBlank.payment}
+                        onChange={(payment) => setDriverBlank((driverBlank) => ({ ...driverBlank, payment }))}
                         isAvailableFractionValue
                         required
                     />

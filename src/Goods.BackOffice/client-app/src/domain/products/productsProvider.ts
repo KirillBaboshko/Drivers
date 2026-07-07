@@ -42,7 +42,7 @@ export class ProductsProvider {
 
 	public static async removeProduct(id: string): Promise<Result> {
 		const response = await fetch(`/products/remove?productId=${id}`, {
-			method: 'GET',
+			method: 'POST',
 			headers: this.headers
 		});
 		const json = await response.json();

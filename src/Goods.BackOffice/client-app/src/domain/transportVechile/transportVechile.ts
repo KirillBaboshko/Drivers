@@ -2,7 +2,7 @@ import {TransportType} from './transportVechileType';
 import { Page } from '../../tools/types/page';
 export class TransportVechile{
     constructor(
-        public readonly id:number,
+        public readonly id:string,
         public readonly type: TransportType,
         public readonly name:string,
         public readonly stateNumber:string,

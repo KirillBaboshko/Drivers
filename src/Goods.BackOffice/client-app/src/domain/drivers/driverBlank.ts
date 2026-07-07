@@ -1,24 +1,23 @@
 import { Gender } from "./driverGender";
 import { RightsCategory } from "./driverRightCategory";
-import { TransportVechile } from "../transportVechile/transportVechile";
 import {Driver} from "./driver"
 export class DriverBlank {
     constructor(
-        public readonly id: string | null,
-        public readonly name:string | null,
-        public readonly surname:string | null,
-        public readonly patronymic: string | null,
-        public readonly gender: Gender | null,
-        public readonly rightsCategories: RightsCategory[] | null,
-        public readonly age: number | null,
-        public readonly experience:number | null,
-        public readonly transportVechile: TransportVechile | null,
-        public readonly payment: number | null,
+        public id: string | null,
+        public name:string | null,
+        public surname:string | null,
+        public patronymic: string | null,
+        public gender: Gender | null,
+        public rightsCategories: RightsCategory[],
+        public age: number | null,
+        public experience:number | null,
+        public transportVechileId: string | null,
+        public payment: number | null,
     ) { }
 }
 export namespace DriverBlank {
     export function getEmpty(): DriverBlank {
-        return new DriverBlank(null, null, null, null, null,null,null,null,null,null);
+        return new DriverBlank(null, null, null, null, null,[],null,null,null,null);
     }
 
     export function getFromDriver(driver: Driver): DriverBlank {
@@ -31,7 +30,7 @@ export namespace DriverBlank {
             rightsCategories:driver.rightsCategories,
             age:driver.age,
             experience:driver.experience,
-            transportVechile:driver.transportVechile,
+            transportVechileId:driver.transportVechile.id,
             payment:driver.payment
         };
     }

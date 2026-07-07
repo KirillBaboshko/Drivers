@@ -39,7 +39,7 @@ export class DriversProvider{
     
         public static async removeDriver(id: string): Promise<Result> {
             const response = await fetch(`/drivers/remove?driverId=${id}`, {
-                method: 'GET',
+                method: 'POST',
                 headers: this.headers
             });
             const json = await response.json();
