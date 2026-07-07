@@ -52,7 +52,7 @@ export const DriverEditorModal=(props: Props)=> {
     }, [props.isOpen, props.driverId]);
 
     async function saveDriver() {
-        const result = await DriversProvider.saveDrivers(driverBlank);
+        const result = await DriversProvider.saveDriver(driverBlank);
         if (!result.isSuccess) {
             setErrorMessage(result.errorsAsString);
             return;
@@ -123,6 +123,14 @@ export const DriverEditorModal=(props: Props)=> {
                         title='Введите возраст водителя'
                         value={driverBlank.age}
                         onChange={(age) => setDriverBlank((driverBlank) => ({ ...driverBlank, age }))}
+                        isAvailableFractionValue
+                        required
+                    />
+                    <Input
+                        variant='number'
+                        title='Введите стаж вождения у водителя'
+                        value={driverBlank.experience}
+                        onChange={(experience) => setDriverBlank((driverBlank) => ({ ...driverBlank, experience }))}
                         isAvailableFractionValue
                         required
                     />

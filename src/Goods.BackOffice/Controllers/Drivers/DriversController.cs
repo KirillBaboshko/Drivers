@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Goods.BackOffice.Controllers.Drivers
 {
-    public class DriversController(DriversService driversService) : BaseController
+    public class DriversController(IDriversService driversService) : BaseController
     {
         [HttpGet("/drivers")]
         public IActionResult Index() => ReactApp();
@@ -31,7 +31,7 @@ namespace Goods.BackOffice.Controllers.Drivers
             return driversService.GetDriver(id);
         }
 
-        [HttpGet("drivers/remove")]
+        [HttpPost("drivers/remove")]
         public Task<Result> RemoveDriver([FromQuery] Guid id)
         {
             return driversService.RemoveDriver(id);

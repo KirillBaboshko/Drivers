@@ -11,5 +11,5 @@ export function DriversRouter() {
 }
 
 export class DriverLink {
-	public static index = '/driers';
+	public static index = '/drivers';
 }

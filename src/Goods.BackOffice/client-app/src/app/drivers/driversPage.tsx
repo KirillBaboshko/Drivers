@@ -21,7 +21,7 @@ import { TablePagination } from '../../shared/components/tablePagination';
 import { ConfirmModalState } from '../../shared/types/confirmModalState';
 import { Pagination } from '../../tools/types/pagination';
 import { DriverEditorModal } from './modals/driversEditorModal';
-import { TransportType } from '../../domain/transportVechile/transportVechileType';
+//import { TransportType } from '../../domain/transportVechile/transportVechileType';
 
 type DriverEditorModalState = {
 	driverId: string | null;
@@ -49,9 +49,10 @@ export const DriversPage=()=>{
         }, []);
     
         async function loadDriversPage(newPagination: Pagination) {
-            const driversPage = await DriversProvider.getPageDrivers(newPagination.page, newPagination.pageSize);
+            const driversPage = await DriversProvider.getDriversPage(newPagination.page, newPagination.pageSize);
     
             setDrivers(driversPage.values);
+            drivers.map(driver =>console.log(driver.transportVechile.type));
             setPagination((pagination) => ({
                 ...pagination,
                 page: newPagination.page,
@@ -134,17 +135,17 @@ export const DriversPage=()=>{
                                 {
                                     drivers.map(driver => (
                                         <TableRow key={`driver__${driver.id}`}>
-                                            <TableCell width='15%'>
+                                            <TableCell>
                                                 {driver.fullName}
                                             </TableCell>
-                                            <TableCell width='20%'>{Gender.getDisplayName(driver.gender)}</TableCell>
-                                            <TableCell width='20%'>{driver.rightsCategories.map(RightsCategory.getShortName).join(', ')}</TableCell>
-                                            <TableCell width='40%'>{driver.age}</TableCell>
-                                            <TableCell width='40%'>{driver.experience}</TableCell>
-                                            <TableCell width='40%'>{TransportType.getDisplayName(driver.transportVechile.type)}
+                                            <TableCell>{Gender.getDisplayName(driver.gender)}</TableCell>
+                                            <TableCell>{driver.rightsCategories.map(RightsCategory.getShortName).join(', ')}</TableCell>
+                                            <TableCell>{driver.age}</TableCell>
+                                            <TableCell>{driver.experience}</TableCell>
+                                            <TableCell>
 											{' — '}
-											{driver.transportVechile.name}</TableCell>
-                                            <TableCell width='15%'>{driver.payment}</TableCell>
+										    </TableCell>
+                                            <TableCell>{driver.payment}</TableCell>
                                             <TableCell>
                                                 <Button
                                                     type='icon'

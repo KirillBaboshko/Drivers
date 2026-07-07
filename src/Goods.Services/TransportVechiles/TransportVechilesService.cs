@@ -102,7 +102,7 @@ namespace Goods.Services.TransportVechiles
             Regex regex = new Regex(@"[АВЕКМНОРСТУХ]\d{3}[АВЕКМНОРСТУХ]{2}\d{2,3}");
             if (String.IsNullOrWhiteSpace(transportVechileBlank.StateNumber))
                 return DataResult<String>.Fail("Не указан государственный номер");
-            if(regex.IsMatch(transportVechileBlank.StateNumber))
+            if(!regex.IsMatch(transportVechileBlank.StateNumber))
                 return DataResult<String>.Fail("Государственный номер не соответствует российскому стандарту");
             return DataResult<String>.Success(transportVechileBlank.StateNumber);
         }

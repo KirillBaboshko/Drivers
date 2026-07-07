@@ -47,7 +47,7 @@ export class TransportVechilesProvider {
 
     public static async removeTransportVechile(id: string): Promise<Result> {
         const response = await fetch(`/transports/remove?transportId=${id}`, {
-            method: 'POST',
+            method: 'GET',
             headers: this.headers
         });
         const json = await response.json();

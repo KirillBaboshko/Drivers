@@ -3,7 +3,7 @@ import { TransportType } from './transportVechileType';
 
 export class TransportVechileBlank {
     constructor(
-        public readonly id: number | null,
+        public readonly id: string | null,
         public readonly type: TransportType | null,
         public readonly name:string | null,
         public readonly stateNumber:string | null,
