@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Driver } from '../../domain/drivers/driver';
+import { TripCost } from '../../domain/drivers/tripCost';
 import { RightsCategory } from '../../domain/drivers/driverRightCategory';
 import { Gender } from '../../domain/drivers/driverGender';
 import { DriversProvider } from '../../domain/drivers/driversProvider';
@@ -22,12 +23,17 @@ import { ConfirmModalState } from '../../shared/types/confirmModalState';
 import { Pagination } from '../../tools/types/pagination';
 import { DriverEditorModal } from './modals/driversEditorModal';
 import { TransportType } from '../../domain/transportVechile/transportVechileType';
+import { TripCostModal } from './modals/tripCostModel';
 
 type DriverEditorModalState = {
 	driverId: string | null;
 	isOpen: boolean;
 };
-
+type TripCostModalState = {
+	driverName: string | null;
+    tripCost: TripCost | null;
+    isOpen: boolean;
+};
 interface RemoveDriverConfirmModalState extends ConfirmModalState {
 	driverId: string | null;
 }
@@ -37,6 +43,11 @@ export const DriversPage=()=>{
     
         const [driverEditorModalState, setDriverEditorModalState] = useState<DriverEditorModalState>({
             driverId: null,
+            isOpen: false
+        });
+        const [tripCostModalState,setTripCostModalState]=useState<TripCostModalState>({
+            driverName: null,
+            tripCost: null,
             isOpen: false
         });
         const [removeDriverConfirmModalState, setRemoveDriverConfirmModalState] =
@@ -64,12 +75,24 @@ export const DriversPage=()=>{
         function openDriverEditorModal(driverId?: string) {
             setDriverEditorModalState({ driverId: driverId ?? null, isOpen: true });
         }
-    
+        async function openTripCostModal(driver:Driver){
+             const result = await DriversProvider.getTripCost(driver.id);
+		    if (!result.isSuccess) {
+			        setErrorMessage(result.errors.map((error) => error.message).join('. '));
+			    return;
+		        }
+
+		setTripCostModalState({ driverName: driver.fullName, tripCost: result.data, isOpen: true });
+        console.log(result.data);
+        }
+
         function closeDriverEditorModal(isEdited: boolean) {
             if (isEdited) loadDriversPage({ ...pagination, page: 1 });
             setDriverEditorModalState({ driverId: null, isOpen: false });
         }
-    
+        function closeTripCostModal(){
+            setTripCostModalState({driverName:null,tripCost:null,isOpen:false})
+        }
         function openRemoveDriverConfirmModal(driverId: string, driverFullname: string) {
             setRemoveDriverConfirmModalState({
                 driverId,
@@ -151,6 +174,12 @@ export const DriversPage=()=>{
                                             <TableCell>
                                                 <Button
                                                     type='icon'
+                                                    variant='calculate'
+                                                    size='small'
+                                                    title={`Рассчитать рейс`}
+                                                    onClick={() => openTripCostModal(driver)} />
+                                                <Button
+                                                    type='icon'
                                                     variant='edit'
                                                     size='small'
                                                     onClick={() => openDriverEditorModal(driver.id)} />
@@ -176,7 +205,12 @@ export const DriversPage=()=>{
                         changeCountInPage={pageSize => loadDriversPage({ ...pagination, pageSize })}
                     />
                 </Paper>
-    
+                <TripCostModal
+                    isOpen={tripCostModalState.isOpen}
+                    driverName={tripCostModalState.driverName}
+                    tripCost={tripCostModalState.tripCost}
+                    onClose={closeTripCostModal}
+                />        
                 <DriverEditorModal
                     isOpen={driverEditorModalState.isOpen}
                     driverId={driverEditorModalState.driverId}

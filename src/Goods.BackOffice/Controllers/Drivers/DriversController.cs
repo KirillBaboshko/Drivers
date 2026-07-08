@@ -38,7 +38,7 @@ namespace Goods.BackOffice.Controllers.Drivers
             return driversService.RemoveDriver(id);
         }
         [HttpGet("drivers/trip-cost")]
-        public Task<TripCost> GetTripCost([FromQuery] Guid id)
+        public Task<DataResult<TripCost>> GetTripCost([FromQuery] Guid id)
         {
             return driversService.GetTripCost(id);
         }

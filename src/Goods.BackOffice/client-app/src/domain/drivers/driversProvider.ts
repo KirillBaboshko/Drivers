@@ -1,7 +1,8 @@
 import { Page } from '../../tools/types/page';
-import { mapToResult, Result } from '../../tools/types/results/result';
+import { DataResult, mapToResult, Result,mapToDataResult } from '../../tools/types/results/result';
 import { Driver, mapToDriver, mapToDriversPage } from './driver';
 import { DriverBlank } from './driverBlank';
+import { TripCost, mapToTripCost } from './tripCost';
 
 export class DriversProvider {
 	private static readonly headers: HeadersInit = [
@@ -48,5 +49,14 @@ export class DriversProvider {
 		const json = await response.json();
 
 		return mapToResult(json);
+	}
+	public static async getTripCost(id:string):Promise<DataResult<TripCost>>{
+		const response = await fetch(`/drivers/trip-cost?id=${id}`, {
+			method: 'GET',
+			headers: this.headers
+		});
+		const json = await response.json();
+		
+		return mapToDataResult(json, mapToTripCost);
 	}
 }

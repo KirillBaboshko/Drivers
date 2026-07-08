@@ -1,6 +1,15 @@
 import { AppBar, Box, Typography } from '@mui/material';
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
+import { DriverLink } from '../../app/drivers/driersRouter';
+//import { ProductLink } from '../../app/products/productsRouter';
+import { TransportLink } from '../../app/transportVechile/transportVechileRouter';
+
+const navLinkSx = {
+	color: 'inherit',
+	textDecoration: 'none',
+	fontWeight: 500
+};
 
 export function Layout() {
 	return (
@@ -17,6 +26,17 @@ export function Layout() {
 					}}>
 					<Box sx={{ width: 'fit-content', height: '100%', display: 'flex', alignItems: 'center' }}>
 						<Typography sx={{ fontWeight: 'bold' }}>Goods</Typography>
+					</Box>
+					<Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+						{/* <Typography component={Link} to={ProductLink.index} sx={navLinkSx}>
+							Продукты
+						</Typography> */}
+						<Typography component={Link} to={TransportLink.index} sx={navLinkSx}>
+							Транспортные средства
+						</Typography>
+						<Typography component={Link} to={DriverLink.index} sx={navLinkSx}>
+							Водители
+						</Typography>
 					</Box>
 				</Box>
 			</AppBar>

@@ -17,9 +17,12 @@ export class TripCost {
         return this.pricePaymentSpent+ this.priceFuelSpent;
     }
     public get priceExtraCharge(): number{
-        return this.priceWithExtraCharge*this.extraCharge
+        return this.priceWithoutExtraCharge*this.extraCharge
     }
     public get priceWithExtraCharge(): number {
-        return this.priceWithExtraCharge+this.priceExtraCharge;
+        return this.priceWithoutExtraCharge+this.priceExtraCharge;
     }
+}
+export function mapToTripCost(data: any): TripCost {
+    return new TripCost(data.lengthOfWay,data.priceOfFuel,data.priceOfPayment,data.timeSpent,data.fuelSpent,data.extraCharge);
 }

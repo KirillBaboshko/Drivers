@@ -247,7 +247,7 @@ namespace Goods.Services.Drivers
 
             return Result.Success();
         }
-        public async Task<TripCost> GetTripCost(Guid id)
+        public async Task<DataResult<TripCost>> GetTripCost(Guid id)
         {
             Driver driver = await GetDriver(id);
             Double timeSpent = LengthOfWay / driver.TransportVechile.AverageSpeed;
@@ -259,7 +259,7 @@ namespace Goods.Services.Drivers
                 driver.TransportVechile.FuelConsumption* timeSpent,
                 ExtraСharge
                 );
-            return tripCost;
+            return DataResult<TripCost>.Success(tripCost); 
         }
     }
 

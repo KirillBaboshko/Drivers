@@ -1,5 +1,6 @@
 import React from 'react';
 import { AddButton, Props as AddButtonProps } from './variants/addButton';
+import { CalculateButton, Props as CalculateButtonProps } from './variants/calculateButton';
 import { CloseButton, Props as CloseButtonProps } from './variants/closeButton';
 import { ConfirmButton, Props as ConfirmButtonProps } from './variants/confirmButton';
 import { EditButton, Props as EditButtonProps } from './variants/editButton';
@@ -7,6 +8,7 @@ import { RemoveButton, Props as RemoveButtonProps } from './variants/removeButto
 import { SaveButton, Props as SaveButtonProps } from './variants/saveButton';
 
 type AddButtonVariant = { variant: 'add' } & AddButtonProps;
+type CalculateButtonVariant = { variant: 'calculate' } & CalculateButtonProps;
 type CloseButtonVariant = { variant: 'close' } & CloseButtonProps;
 type ConfirmButtonVariant = { variant: 'confirm' } & ConfirmButtonProps;
 type EditButtonVariant = { variant: 'edit' } & EditButtonProps;
@@ -15,6 +17,7 @@ type SaveButtonVariant = { variant: 'save' } & SaveButtonProps;
 
 export type Props =
 	| AddButtonVariant
+	| CalculateButtonVariant
 	| CloseButtonVariant
 	| ConfirmButtonVariant
 	| EditButtonVariant
@@ -25,6 +28,8 @@ export function ButtonVariants(props: Props) {
 	switch (props.variant) {
 		case 'add':
 			return <AddButton {...props} />;
+		case 'calculate':
+			return <CalculateButton {...props} />;
 		case 'close':
 			return <CloseButton {...props} />;
 		case 'confirm':
