@@ -15,5 +15,6 @@ namespace Goods.Domain.Services
         Task<Driver> GetDriver(Guid id);
         Task<Page<Driver>> GetDrivers(Int32 page, Int32 count);
         Task<Result> RemoveDriver(Guid id);
+        Task<TripCost> GetTripCost(Guid id);
     }
 }

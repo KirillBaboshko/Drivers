@@ -3,6 +3,7 @@ using Goods.Domain.Drivers;
 using Goods.Domain.Drivers;
 using Goods.Domain.Services;
 using Goods.Services.Drivers;
+using Goods.Services.Drivers.Repositories.Models;
 using Goods.Tools.Types.Results;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,10 +32,15 @@ namespace Goods.BackOffice.Controllers.Drivers
             return driversService.GetDriver(id);
         }
 
-        [HttpPost("drivers/remove")]
+        [HttpGet("drivers/remove")]
         public Task<Result> RemoveDriver([FromQuery] Guid id)
         {
             return driversService.RemoveDriver(id);
+        }
+        [HttpGet("drivers/trip-cost")]
+        public Task<TripCost> GetTripCost([FromQuery] Guid id)
+        {
+            return driversService.GetTripCost(id);
         }
     }
 }

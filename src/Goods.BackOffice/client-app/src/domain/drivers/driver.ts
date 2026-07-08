@@ -1,7 +1,7 @@
 import { Page } from '../../tools/types/page';
 import { Gender } from './driverGender';
 import {RightsCategory} from './driverRightCategory'
-import {TransportVechile} from '../transportVechile/transportVechile'
+import {mapToTransportVechile,TransportVechile} from '../transportVechile/transportVechile'
 
 export class Driver {
     constructor(
@@ -31,5 +31,5 @@ export function mapToDrivers(data: any[]): Driver[] {
 
 export function mapToDriver(data: any): Driver {
     return new Driver(data.id,data.name,data.surname,data.patronymic, 
-        data.gender, data.rightsCategories, data.age, data.experience, data.tranportVechile,data.payment);
+        data.gender, data.rightsCategories, data.age, data.experience, mapToTransportVechile(data.transportVechile),data.payment);
 }

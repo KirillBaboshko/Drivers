@@ -36,7 +36,7 @@ export class TransportVechilesProvider {
 	}
 
     public static async getTransportVechileById(id: string): Promise<TransportVechile | null> {
-        const response = await fetch(`/transports/get-by-id?transportId=${id}`, {
+        const response = await fetch(`/transports/get-by-id?id=${id}`, {
             method: 'GET',
             headers: this.headers
         });
@@ -46,7 +46,7 @@ export class TransportVechilesProvider {
     }
 
     public static async removeTransportVechile(id: string): Promise<Result> {
-        const response = await fetch(`/transports/remove?transportId=${id}`, {
+        const response = await fetch(`/transports/remove?id=${id}`, {
             method: 'GET',
             headers: this.headers
         });

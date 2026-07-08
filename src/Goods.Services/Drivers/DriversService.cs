@@ -12,11 +12,15 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Goods.Services.Drivers
 {
     public class DriversService(IDriversRepository driversRepository, ITransportVechilesService transportVechilesService) : IDriversService
     {
+        private const Int32 LengthOfWay = 100;
+        private const Double PriceOfFuel = 70;
+        private const Double ExtraСharge = 0.3;
         public async Task<Result> SaveDriver(DriverBlank driverBlank)
         {
             DataResult<Driver> validationResult = await ValidateDriverBlank(driverBlank);
@@ -242,6 +246,20 @@ namespace Goods.Services.Drivers
             await driversRepository.RemoveDriver(id);
 
             return Result.Success();
+        }
+        public async Task<TripCost> GetTripCost(Guid id)
+        {
+            Driver driver = await GetDriver(id);
+            Double timeSpent = LengthOfWay / driver.TransportVechile.AverageSpeed;
+            TripCost tripCost = new TripCost(
+                LengthOfWay,
+                PriceOfFuel,
+                driver.Payment,
+                timeSpent,
+                driver.TransportVechile.FuelConsumption* timeSpent,
+                ExtraСharge
+                );
+            return tripCost;
         }
     }
 

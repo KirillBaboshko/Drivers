@@ -21,7 +21,7 @@ import { TablePagination } from '../../shared/components/tablePagination';
 import { ConfirmModalState } from '../../shared/types/confirmModalState';
 import { Pagination } from '../../tools/types/pagination';
 import { DriverEditorModal } from './modals/driversEditorModal';
-//import { TransportType } from '../../domain/transportVechile/transportVechileType';
+import { TransportType } from '../../domain/transportVechile/transportVechileType';
 
 type DriverEditorModalState = {
 	driverId: string | null;
@@ -52,7 +52,7 @@ export const DriversPage=()=>{
             const driversPage = await DriversProvider.getDriversPage(newPagination.page, newPagination.pageSize);
     
             setDrivers(driversPage.values);
-            drivers.map(driver =>console.log(driver.transportVechile.type));
+            drivers.map(driver => console.log(driver.transportVechile));
             setPagination((pagination) => ({
                 ...pagination,
                 page: newPagination.page,
@@ -143,7 +143,9 @@ export const DriversPage=()=>{
                                             <TableCell>{driver.age}</TableCell>
                                             <TableCell>{driver.experience}</TableCell>
                                             <TableCell>
+											 {TransportType.getDisplayName(driver.transportVechile.type)}
 											{' — '}
+											{driver.transportVechile.name}
 										    </TableCell>
                                             <TableCell>{driver.payment}</TableCell>
                                             <TableCell>

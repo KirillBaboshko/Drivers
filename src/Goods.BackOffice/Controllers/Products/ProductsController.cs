@@ -29,7 +29,7 @@ public class ProductsController(IProductsService productsService) : BaseControll
 		return productsService.GetProduct(id);
 	}
 
-	[HttpGet("products/remove")]
+	[HttpPost("products/remove")]
 	public Task<Result> RemoveProduct([FromQuery] Guid id)
 	{
 		return productsService.RemoveProduct(id);
