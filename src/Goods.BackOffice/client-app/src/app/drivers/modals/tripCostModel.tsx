@@ -33,7 +33,7 @@ export function TripCostModal(props: Props) {
 								</TableRow>
                                 <TableRow>
 									<TableCell>Потрачено топлива</TableCell>
-									<TableCell align='right'>{props.tripCost.fuelSpent} ₽</TableCell>
+									<TableCell align='right'>{props.tripCost.fuelSpent} л</TableCell>
 								</TableRow>
 								<TableRow>
 									<TableCell>Оплата водителю</TableCell>
@@ -49,7 +49,7 @@ export function TripCostModal(props: Props) {
 								</TableRow>
 								<TableRow>
 									<TableCell>Наценка компании</TableCell>
-									<TableCell align='right'>{props.tripCost.extraCharge} ₽</TableCell>
+									<TableCell align='right'>{props.tripCost.priceExtraCharge} ₽</TableCell>
 								</TableRow>
 								<TableRow>
 									<TableCell sx={{ fontWeight: 'bold' }}>Итоговая стоимость</TableCell>
