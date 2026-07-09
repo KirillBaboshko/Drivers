@@ -254,11 +254,12 @@ namespace Goods.Services.Drivers
         public async Task<DataResult<Decimal>> GetTripCostPeriod(Guid id,DateOnly startDay, DateOnly endDay)
         {
             Driver driver = await GetDriver(id);
-            Int32 countTrips = endDay.DayNumber - startDay.DayNumber;
             Double resultsum = 0;
-            for(int i=0; i<countTrips;i++)
+            DateOnly day = startDay;
+            while (day.DayNumber<=endDay.DayNumber)
             {
-                resultsum += TripCost.Calculate(driver).ResultPrice;
+                resultsum += TripCost.Calculate(driver,day).ResultPrice;
+                day.AddDays(1);
             }
             return DataResult<Decimal>.Success((Decimal)resultsum);
 
