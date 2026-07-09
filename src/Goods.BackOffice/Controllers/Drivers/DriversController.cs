@@ -32,6 +32,7 @@ namespace Goods.BackOffice.Controllers.Drivers
             return driversService.GetDriver(id);
         }
 
+
         [HttpGet("drivers/remove")]
         public Task<Result> RemoveDriver([FromQuery] Guid id)
         {

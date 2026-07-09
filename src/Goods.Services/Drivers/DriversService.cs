@@ -18,9 +18,7 @@ namespace Goods.Services.Drivers
 {
     public class DriversService(IDriversRepository driversRepository, ITransportVechilesService transportVechilesService) : IDriversService
     {
-        private const Int32 LengthOfWay = 100;
-        private const Double PriceOfFuel = 70;
-        private const Double ExtraСharge = 0.3;
+        
         public async Task<Result> SaveDriver(DriverBlank driverBlank)
         {
             DataResult<Driver> validationResult = await ValidateDriverBlank(driverBlank);
@@ -250,17 +248,22 @@ namespace Goods.Services.Drivers
         public async Task<DataResult<TripCost>> GetTripCost(Guid id)
         {
             Driver driver = await GetDriver(id);
-            Double timeSpent = LengthOfWay / driver.TransportVechile.AverageSpeed;
-            TripCost tripCost = new TripCost(
-                LengthOfWay,
-                PriceOfFuel,
-                driver.Payment,
-                timeSpent,
-                driver.TransportVechile.FuelConsumption* timeSpent,
-                ExtraСharge
-                );
-            return DataResult<TripCost>.Success(tripCost); 
+            return DataResult<TripCost>.Success(TripCost.Calculate(driver)); 
+        }
+        
+        public async Task<DataResult<Decimal>> GetTripCostPeriod(Guid id,DateOnly startDay, DateOnly endDay)
+        {
+            Driver driver = await GetDriver(id);
+            Int32 countTrips = endDay.DayNumber - startDay.DayNumber;
+            Double resultsum = 0;
+            for(int i=0; i<countTrips;i++)
+            {
+                resultsum += TripCost.Calculate(driver).ResultPrice;
+            }
+            return DataResult<Decimal>.Success((Decimal)resultsum);
+
         }
     }
+    
 
 }

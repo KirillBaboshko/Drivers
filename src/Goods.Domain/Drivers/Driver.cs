@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Goods.Domain.Drivers
 {
-    public class Driver(Guid id,String name, String surname, String? patronymic, Gender gender, RightsCategory[] rightsCategories, 
-        Int32 age,Int32 experience, TransportVechile transportVechile,Double payment, Boolean isRemoved)
+    public class Driver(Guid id,String name, String surname, String? patronymic, Gender gender, RightsCategory[] rightsCategories,
+        DateOnly birthDate, DateOnly receivingDate, TransportVechile transportVechile,Double payment, Boolean isRemoved)
     {
         public Guid Id { get; } = id;
         public String Name { get; } = name;
@@ -17,8 +17,10 @@ namespace Goods.Domain.Drivers
         public String? Patronymic { get; }= patronymic;
         public Gender Gender { get; }= gender;
         public RightsCategory[] RightsCategories { get; }= rightsCategories;
-        public Int32 Age { get; }= age;
-        public Int32 Experience { get; } = experience;
+        public DateOnly BirthDate { get; } = birthDate;
+        public Int32 Age()=> DateTime.Now.DayOfYear-BirthDate.DayOfYear>0? DateTime.Now.Year- BirthDate.Year : DateTime.Now.Year - BirthDate.Year-1;
+        public DateOnly ReceivingDate { get; } = receivingDate;
+        public Int32 Experience() => DateTime.Now.DayOfYear - ReceivingDate.DayOfYear > 0 ? DateTime.Now.Year - ReceivingDate.Year : DateTime.Now.Year - ReceivingDate.Year - 1;
         public TransportVechile TransportVechile { get; }= transportVechile;
         public Double Payment { get; }= payment;
         public Boolean IsRemoved { get; }= isRemoved;

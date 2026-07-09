@@ -9,13 +9,24 @@ using System.Threading.Tasks;
 
 namespace Goods.Domain.Drivers
 {
-        public class TripCost(Int32 lengthOfWay, Double priceFuel,Double pricePayment, Double timeSpent,Double fuelSpent,Double extraCharge)
+    public class TripCost(Driver driver)
+    {
+        private const Int32 LengthOfWay = 100;
+        private const Double PriceOfFuel = 70;
+        private const Double DriverPaymentExtraСharge = 0.01;
+        private const Double ExtraСharge = 0.3;
+        public static Double CalculateDriverPayment(Driver driver)
         {
-            public Int32 LengthOfWay { get; }= lengthOfWay;
-            public Double PriceOfFuel { get; } = priceFuel;
-            public Double PriceOfPayment { get; } = pricePayment;
-            public Double TimeSpent { get; }= timeSpent;
-            public Double FuelSpent { get; } = fuelSpent;
-            public Double ExtraCharge { get; } = extraCharge;
+            return ((driver.Experience() * DriverPaymentExtraСharge) * driver.Payment) + driver.Payment;
         }
-}
+        public static Double PriceWithoutExtraСharge(Driver driver) => (LengthOfWay / driver.TransportVechile.AverageSpeed) * driver.TransportVechile.FuelConsumption * PriceOfFuel +
+            (LengthOfWay / driver.TransportVechile.AverageSpeed) * CalculateDriverPayment(driver);
+        public Double ResultPrice { get; } = PriceWithoutExtraСharge(driver) * ExtraСharge + PriceWithoutExtraСharge(driver);
+
+        public static TripCost Calculate(Driver driver)
+        {
+            return new TripCost(driver);
+        }
+    }
+  }
+
